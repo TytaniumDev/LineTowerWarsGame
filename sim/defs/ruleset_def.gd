@@ -3,6 +3,10 @@ extends Resource
 ## One playable rules variant. Values Tyler wants to playtest live here, so variants are
 ## data files picked from a debug menu rather than code branches.
 
+## When the opponent's sends enter a lane, relative to the neutral wave.
+## WITH_WAVE interleaves them: sends start half a wave spacing after the wave does.
+enum SendTiming { WITH_WAVE, AFTER_WAVE, BEFORE_WAVE }
+
 @export var id: StringName
 @export var display_name: String
 
@@ -18,12 +22,15 @@ extends Resource
 ## Percent refunded when selling gold spent in an earlier round. Gold spent this round
 ## is always refunded in full.
 @export_range(0, 100) var sell_refund_percent: int = 50
+## Percent of kill bounties paid to the defender after a battle.
+@export_range(0, 1000) var bounty_percent: int = 100
 
 @export_group("Battle")
 ## Ticks between sent creeps entering the lane.
 @export var send_spacing: int = 15
 ## Ticks between neutral wave creeps entering the lane.
 @export var wave_spacing: int = 15
+@export var send_timing: SendTiming = SendTiming.WITH_WAVE
 ## Hard cap on battle length in ticks, so a stalled battle always ends.
 @export var battle_tick_limit: int = 30 * 60 * 5
 ## Neutral waves by round. Rounds past the end of the list repeat the last wave.
@@ -43,8 +50,8 @@ func validate() -> PackedStringArray:
 		errors.append("id is required")
 	if starting_lives <= 0 or wins_to_finish <= 0:
 		errors.append("starting_lives and wins_to_finish must be positive")
-	if starting_gold < 0 or base_income < 0:
-		errors.append("starting_gold and base_income can't be negative")
+	if starting_gold < 0 or base_income < 0 or bounty_percent < 0:
+		errors.append("starting_gold, base_income and bounty_percent can't be negative")
 	if send_spacing < 0 or wave_spacing < 0 or battle_tick_limit <= 0:
 		errors.append("spacings can't be negative and battle_tick_limit must be positive")
 	for wave: WaveDef in waves:

@@ -125,6 +125,24 @@ func undo_last_send() -> Result:
 	return Result.OK
 
 
+## Records a finished duel: the outcome, lives, and bounty gold scaled by the ruleset.
+func finish_round(outcome: Duel.Outcome, bounty: int) -> void:
+	match outcome:
+		Duel.Outcome.WIN:
+			wins += 1
+		Duel.Outcome.LOSS:
+			losses += 1
+			lives -= 1
+		Duel.Outcome.DRAW:
+			draws += 1
+	gold += bounty * ruleset.bounty_percent / 100
+
+
+## This player's side of a duel: a fresh copy of the maze and this round's army.
+func duel_side() -> DuelSide:
+	return DuelSide.new(grid, battle_towers(), army.duplicate())
+
+
 ## Battle-ready tower states for the current maze, in placement order.
 func battle_towers() -> Array[TowerState]:
 	var result: Array[TowerState] = []

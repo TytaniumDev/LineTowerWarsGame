@@ -50,6 +50,7 @@ Run start → [Round: Build phase → Battle phase → Result] × N → Run end
 ### 4.2 Battle phase
 - The opponent is a stored snapshot of another player from the same point in their run.
 - **Starting variant (D4): mirror duel.** Your army runs their maze while their army runs yours, simultaneously; whoever leaks fewer creeps wins. Expected to evolve into something more complex; this is a playtest area.
+- Creeps unresolved when the ruleset's battle tick limit runs out count as leaks.
 - The fight is fully simulated; the player only watches, with pause and speed-up controls (D18). Active abilities could be a later ruleset variant.
 
 ### 4.3 Result and run structure
@@ -187,3 +188,5 @@ Stored as JSON. Maze and army are separable.
 | D35 | Overkill | Towers count damage in flight and skip creeps already doomed | 2026-10-17 |
 | D36 | Duel ties | Equal leaks is a draw: no life lost, no win | 2026-10-17 |
 | D37 | Offline opponents | Your own past rounds, saved locally, plus a few hand-made seeds for an empty pool | 2026-10-17 |
+| D38 | Send timing | Sends enter interleaved with the neutral wave (ruleset `send_timing`, also supports after or before the wave) | 2026-10-17 |
+| D39 | Bounty | Kills pay their bounty to the defender after the battle (ruleset `bounty_percent`, default 100) | 2026-10-17 |
