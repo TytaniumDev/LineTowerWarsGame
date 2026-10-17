@@ -23,6 +23,8 @@ enum Targeting {
 ## Ticks between attacks (30 ticks = one second).
 @export var attack_interval: int = 30
 @export var targeting: Targeting = Targeting.FIRST
+## Homing shot speed in milli-cells per second; 0 hits instantly. Shots never miss.
+@export var projectile_speed: int = 0
 
 @export_group("Effects")
 ## Splash radius in milli-cells around the target; 0 hits the target only.
@@ -40,8 +42,10 @@ func validate() -> PackedStringArray:
 	var errors := PackedStringArray()
 	if id.is_empty():
 		errors.append("id is required")
-	if cost < 0 or damage < 0 or splash_radius < 0 or slow_duration < 0:
-		errors.append("cost, damage, splash_radius and slow_duration can't be negative")
+	if cost < 0 or damage < 0 or splash_radius < 0 or slow_duration < 0 or projectile_speed < 0:
+		errors.append(
+			"cost, damage, splash_radius, slow_duration and projectile_speed can't be negative"
+		)
 	if attack_range <= 0:
 		errors.append("attack_range must be positive")
 	if attack_interval <= 0:
