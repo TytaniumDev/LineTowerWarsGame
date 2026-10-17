@@ -9,4 +9,5 @@ display_name = "Arrow"
 cost = 10
 attack_range = 3000
 damage = 10
+projectile_speed = 12000
 attack_interval = 20

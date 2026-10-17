@@ -9,5 +9,6 @@ display_name = "Cannon"
 cost = 15
 attack_range = 2500
 damage = 8
+projectile_speed = 8000
 attack_interval = 36
 splash_radius = 1000

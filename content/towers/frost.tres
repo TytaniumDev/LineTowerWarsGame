@@ -10,5 +10,6 @@ cost = 12
 attack_range = 2500
 damage = 2
 targeting = 3
+projectile_speed = 10000
 slow_percent = 40
 slow_duration = 60
