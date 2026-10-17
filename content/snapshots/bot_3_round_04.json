@@ -1,0 +1,57 @@
+{
+	"army": [
+		"runner"
+	],
+	"economy": {
+		"gold": 6,
+		"income": 23
+	},
+	"maze": [
+		{
+			"cell": [
+				4,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				5,
+				1
+			],
+			"tower_id": "frost"
+		},
+		{
+			"cell": [
+				6,
+				1
+			],
+			"tower_id": "frost"
+		},
+		{
+			"cell": [
+				3,
+				0
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				7,
+				1
+			],
+			"tower_id": "frost"
+		}
+	],
+	"meta": {
+		"draws": 0,
+		"game_version": "0.1.0",
+		"lane_id": "standard",
+		"lives": 3,
+		"losses": 2,
+		"ruleset_id": "standard",
+		"wins": 1
+	},
+	"round": 4,
+	"schema_version": 1
+}

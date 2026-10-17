@@ -1,0 +1,111 @@
+{
+	"army": [],
+	"economy": {
+		"gold": 2,
+		"income": 15
+	},
+	"maze": [
+		{
+			"cell": [
+				4,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				5,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				6,
+				1
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				3,
+				0
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				7,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				8,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				9,
+				1
+			],
+			"tower_id": "frost"
+		},
+		{
+			"cell": [
+				10,
+				3
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				9,
+				3
+			],
+			"tower_id": "frost"
+		},
+		{
+			"cell": [
+				8,
+				3
+			],
+			"tower_id": "frost"
+		},
+		{
+			"cell": [
+				7,
+				3
+			],
+			"tower_id": "frost"
+		},
+		{
+			"cell": [
+				6,
+				3
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				5,
+				3
+			],
+			"tower_id": "arrow"
+		}
+	],
+	"meta": {
+		"draws": 2,
+		"game_version": "0.1.0",
+		"lane_id": "standard",
+		"lives": 3,
+		"losses": 2,
+		"ruleset_id": "standard",
+		"wins": 0
+	},
+	"round": 5,
+	"schema_version": 1
+}

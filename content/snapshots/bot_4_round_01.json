@@ -1,0 +1,30 @@
+{
+	"army": [
+		"runner",
+		"tank"
+	],
+	"economy": {
+		"gold": 7,
+		"income": 20
+	},
+	"maze": [
+		{
+			"cell": [
+				4,
+				1
+			],
+			"tower_id": "arrow"
+		}
+	],
+	"meta": {
+		"draws": 0,
+		"game_version": "0.1.0",
+		"lane_id": "standard",
+		"lives": 5,
+		"losses": 0,
+		"ruleset_id": "standard",
+		"wins": 0
+	},
+	"round": 1,
+	"schema_version": 1
+}

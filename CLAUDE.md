@@ -20,6 +20,7 @@ Guidance for anyone (Claude or human) changing this repo. The product spec is
 | `render/render_2d/`, `render/render_3d/` | Renderers that observe the sim and draw it. |
 | `ui/` | Menus, HUD and debug menus. |
 | `game/` | Entry scene and app flow that wires sim, renderer and UI together. `SimRunner` drives the sim's fixed tick from frame time. |
+| `tools/` | Editor-time scripts run with `godot --headless -s`, e.g. regenerating seed snapshots. Not exported. |
 | `test/` | gdUnit4 suites, mirroring the source path (`sim/foo.gd` → `test/sim/foo_test.gd`). |
 
 Folders are created when their first file lands. Scenes live next to their scripts.
