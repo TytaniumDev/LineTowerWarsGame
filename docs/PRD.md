@@ -91,10 +91,10 @@ Run start → [Round: Build phase → Battle phase → Result] × N → Run end
 Carried over from the design doc as decided.
 
 ### 6.1 Stack
-- Godot 4.x, statically typed GDScript (untyped declarations set to error). Pinned to the newest stable 4.x release at scaffold time, in both the project and CI (D21).
+- Godot 4.7.2 (newest stable at scaffold time), statically typed GDScript (untyped declarations set to error), pinned in both the project and CI (D21, D27).
 
 ### 6.2 Architecture
-- `GameSim`: plain typed GDScript classes (not Nodes) on a fixed tick. Owns all rules and state.
+- `GameSim`: plain typed GDScript classes (not Nodes) on a fixed 30 Hz tick (D26). Owns all rules and state.
 - Inputs: player commands + snapshots + seed. Outputs: observable state / events.
 - Renderers (`Renderer2D`, `Renderer3D`) only observe and draw; each implements `screen_to_cell(pos) -> Vector2i`.
 - Live debug toggle swaps renderers against the same `GameSim` mid-battle.
@@ -173,3 +173,7 @@ Stored as JSON. Maze and army are separable.
 | D21 | Godot version | Latest stable 4.x at scaffold time, pinned | 2026-10-16 |
 | D22 | Art direction | Decide after the slice | 2026-10-16 |
 | D23 | PRD location | Committed to the repo as `docs/PRD.md` after sign-off, linked from `CLAUDE.md`, changed by PR | 2026-10-17 |
+| D24 | Folder layout | By feature: `sim/`, `content/`, `render/`, `ui/`, `game/`, `test/` | 2026-10-17 |
+| D25 | CI Godot setup | `barichello/godot-ci` Docker image | 2026-10-17 |
+| D26 | Sim tick rate | 30 ticks per second | 2026-10-17 |
+| D27 | Pinned versions | Godot 4.7.2, gdUnit4 6.2.2, gdtoolkit 4.5.0 | 2026-10-17 |
