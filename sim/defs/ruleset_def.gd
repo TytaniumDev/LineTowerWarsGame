@@ -32,7 +32,7 @@ enum SendTiming { WITH_WAVE, AFTER_WAVE, BEFORE_WAVE }
 @export var wave_spacing: int = 15
 @export var send_timing: SendTiming = SendTiming.WITH_WAVE
 ## Hard cap on battle length in ticks, so a stalled battle always ends.
-@export var battle_tick_limit: int = 30 * 60 * 5
+@export_range(30, 36000, 30) var battle_tick_limit: int = 30 * 60 * 5
 ## Neutral waves by round. Rounds past the end of the list repeat the last wave.
 @export var waves: Array[WaveDef] = []
 

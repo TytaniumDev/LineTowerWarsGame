@@ -4,6 +4,7 @@ extends RefCounted
 
 const TOWERS_DIR: String = "res://content/towers"
 const CREEPS_DIR: String = "res://content/creeps"
+const RULESETS_DIR: String = "res://content/rulesets"
 
 
 static func load_registry() -> ContentRegistry:
@@ -15,6 +16,15 @@ static func load_registry() -> ContentRegistry:
 		if res is CreepDef:
 			registry.add_creep(res)
 	return registry
+
+
+## Every ruleset variant, sorted by file name.
+static func load_rulesets() -> Array[RulesetDef]:
+	var rulesets: Array[RulesetDef] = []
+	for res: Resource in load_dir(RULESETS_DIR):
+		if res is RulesetDef:
+			rulesets.append(res)
+	return rulesets
 
 
 ## Every Resource in `dir_path`, sorted by file name. Uses ResourceLoader's listing so
