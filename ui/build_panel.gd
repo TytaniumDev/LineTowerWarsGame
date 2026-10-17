@@ -1,10 +1,12 @@
 class_name BuildPanel
 extends PanelContainer
-## Build-phase sidebar: economy and record, tower choice, sends, and the ready button.
+## Build-phase sidebar: economy and record, tower choice, upgrades for the tower under the
+## cursor, sends, and the ready button.
 ##
 ## Emits requests only; the owner applies them to the sim and calls `refresh()`.
 
 signal tower_chosen(index: int)
+signal upgrade_chosen(index: int)
 signal send_requested(creep: CreepDef)
 signal undo_send_requested
 signal ready_pressed
@@ -14,6 +16,11 @@ var _tower_buttons: Array[Button] = []
 var _send_buttons: Array[Button] = []
 var _creeps: Array[CreepDef] = []
 var _army: Label
+var _selected: Label
+var _upgrade_row: HBoxContainer
+var _upgrade_buttons: Array[Button] = []
+## The tower type whose upgrades the buttons show, so they're rebuilt only on change.
+var _upgrades_for: TowerDef
 var _message: Label
 
 
@@ -36,6 +43,12 @@ func setup(towers: Array[TowerDef], creeps: Array[CreepDef]) -> void:
 		button.pressed.connect(tower_chosen.emit.bind(i))
 		tower_row.add_child(button)
 		_tower_buttons.append(button)
+
+	_selected = Label.new()
+	_selected.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(_selected)
+	_upgrade_row = HBoxContainer.new()
+	box.add_child(_upgrade_row)
 
 	box.add_child(_heading("Send creeps"))
 	_creeps = creeps
@@ -69,8 +82,9 @@ func setup(towers: Array[TowerDef], creeps: Array[CreepDef]) -> void:
 	box.add_child(_heading("Tab / Y switches between the maze and this panel"))
 
 
-## Updates the numbers from `player` and highlights the chosen tower.
-func refresh(player: PlayerState, chosen_tower: int) -> void:
+## Updates the numbers from `player`, highlights the chosen tower, and offers upgrades for
+## `selected`, the tower under the cursor (or null).
+func refresh(player: PlayerState, chosen_tower: int, selected: PlacedTower = null) -> void:
 	_stats.text = (
 		"Round %d\nGold %d   Income +%d\nLives %d   Wins %d / %d   Losses %d   Draws %d"
 		% [
@@ -89,6 +103,21 @@ func refresh(player: PlayerState, chosen_tower: int) -> void:
 	for i: int in _send_buttons.size():
 		_send_buttons[i].disabled = player.gold < _creeps[i].send_cost
 	_army.text = "Sending: %s" % _army_summary(player.army)
+	_show_selected(player, selected)
+
+
+## Moves controller focus to the first affordable upgrade. Returns false if there's none.
+func focus_upgrades() -> bool:
+	for button: Button in _upgrade_buttons:
+		if not button.disabled:
+			button.grab_focus()
+			return true
+	return false
+
+
+## Whether one of the upgrade buttons has focus.
+func upgrades_focused() -> bool:
+	return _upgrade_buttons.any(func(button: Button) -> bool: return button.has_focus())
 
 
 ## Shows why the last action was refused, or clears the message with "".
@@ -103,6 +132,40 @@ func grab_panel_focus() -> void:
 			button.grab_focus()
 			return
 	_tower_buttons[0].grab_focus()
+
+
+func _show_selected(player: PlayerState, selected: PlacedTower) -> void:
+	var def := selected.def if selected != null else null
+	if def != _upgrades_for:
+		_upgrades_for = def
+		for button: Button in _upgrade_buttons:
+			button.queue_free()
+		_upgrade_buttons.clear()
+		if def != null:
+			for i: int in def.upgrades.size():
+				var button := Button.new()
+				button.text = "%s  %dg" % [def.upgrades[i].display_name, def.upgrades[i].cost]
+				button.pressed.connect(upgrade_chosen.emit.bind(i))
+				_upgrade_row.add_child(button)
+				_upgrade_buttons.append(button)
+	if def == null:
+		_selected.text = ""
+	else:
+		var hint := (
+			"Upgrade (%s):" % _upgrade_keys() if not def.upgrades.is_empty() else "Fully upgraded."
+		)
+		_selected.text = (
+			"%s, sells for %dg. %s" % [def.display_name, player.sell_value(selected.cell), hint]
+		)
+		for i: int in _upgrade_buttons.size():
+			_upgrade_buttons[i].disabled = player.gold < def.upgrades[i].cost
+
+
+static func _upgrade_keys() -> String:
+	return (
+		"%s / %s"
+		% [InputLabels.keyboard_mouse(&"upgrade_tower"), InputLabels.controller(&"upgrade_tower")]
+	)
 
 
 static func _heading(text: String) -> Label:

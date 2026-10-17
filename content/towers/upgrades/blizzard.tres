@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="TowerDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_tower"]
+
+[resource]
+script = ExtResource("1_tower")
+id = &"blizzard"
+display_name = "Blizzard"
+cost = 22
+attack_range = 2500
+damage = 2
+attack_interval = 40
+projectile_speed = 8000
+splash_radius = 1500
+slow_percent = 35
+slow_duration = 60

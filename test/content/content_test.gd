@@ -27,9 +27,20 @@ func _assert_valid_with_unique_ids(resources: Array[Resource]) -> void:
 func test_towers_are_valid() -> void:
 	var towers := _load_all("res://content/towers")
 	assert_int(towers.size()).is_equal(3)
+	towers.append_array(_load_all("res://content/towers/upgrades"))
 	for res: Resource in towers:
 		assert_object(res).is_instanceof(TowerDef)
 	_assert_valid_with_unique_ids(towers)
+
+
+func test_every_upgrade_is_reachable_from_a_base_tower() -> void:
+	var reachable: Dictionary[StringName, bool] = {}
+	for base: Resource in _load_all("res://content/towers"):
+		for upgrade: TowerDef in (base as TowerDef).upgrades:
+			reachable[upgrade.id] = true
+	for upgrade: Resource in _load_all("res://content/towers/upgrades"):
+		var id: StringName = upgrade.get("id")
+		assert_bool(reachable.has(id)).override_failure_message("%s is unreachable" % id).is_true()
 
 
 func test_creeps_are_valid() -> void:

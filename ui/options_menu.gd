@@ -17,6 +17,7 @@ const CONTROL_ROWS: Array[Array] = [
 	[&"cursor_right", "Move cursor right"],
 	[&"place_tower", "Place tower"],
 	[&"sell_tower", "Sell tower"],
+	[&"upgrade_tower", "Upgrade tower"],
 	[&"previous_tower", "Previous tower type"],
 	[&"next_tower", "Next tower type"],
 	[&"switch_focus", "Switch maze / panel"],

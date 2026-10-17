@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TowerDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_tower"]
+
+[resource]
+script = ExtResource("1_tower")
+id = &"sniper"
+display_name = "Sniper"
+cost = 20
+attack_range = 5000
+damage = 40
+attack_interval = 45
+targeting = 2
+projectile_speed = 24000

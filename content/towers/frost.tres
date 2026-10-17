@@ -1,6 +1,8 @@
-[gd_resource type="Resource" script_class="TowerDef" format=3]
+[gd_resource type="Resource" script_class="TowerDef" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_irw8o"]
+[ext_resource type="Resource" path="res://content/towers/upgrades/glacier.tres" id="2_glacier"]
+[ext_resource type="Resource" path="res://content/towers/upgrades/blizzard.tres" id="3_blizzard"]
 
 [resource]
 script = ExtResource("1_irw8o")
@@ -13,3 +15,4 @@ targeting = 3
 projectile_speed = 10000
 slow_percent = 40
 slow_duration = 60
+upgrades = Array[ExtResource("1_irw8o")]([ExtResource("2_glacier"), ExtResource("3_blizzard")])

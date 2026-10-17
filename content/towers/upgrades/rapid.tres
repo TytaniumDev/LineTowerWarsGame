@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TowerDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_tower"]
+
+[resource]
+script = ExtResource("1_tower")
+id = &"rapid"
+display_name = "Rapid"
+cost = 18
+attack_range = 2500
+damage = 6
+attack_interval = 7
+projectile_speed = 14000
