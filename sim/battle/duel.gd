@@ -64,7 +64,7 @@ func run() -> Outcome:
 
 
 func _leaks(battle: LaneBattle) -> int:
-	if battle.is_finished():
+	if tick < _tick_limit:
 		return battle.leaks
 	return battle.leaks + battle.unresolved_count()
 
