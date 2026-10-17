@@ -1,0 +1,138 @@
+{
+	"army": [
+		"swarm",
+		"swarm",
+		"swarm",
+		"swarm",
+		"grunt"
+	],
+	"economy": {
+		"gold": 3,
+		"income": 23
+	},
+	"maze": [
+		{
+			"cell": [
+				4,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				5,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				6,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				3,
+				0
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				7,
+				1
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				8,
+				1
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				9,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				10,
+				3
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				9,
+				3
+			],
+			"tower_id": "frost"
+		},
+		{
+			"cell": [
+				8,
+				3
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				7,
+				3
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				6,
+				3
+			],
+			"tower_id": "frost"
+		},
+		{
+			"cell": [
+				5,
+				3
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				4,
+				3
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				3,
+				3
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				2,
+				2
+			],
+			"tower_id": "frost"
+		}
+	],
+	"meta": {
+		"draws": 0,
+		"game_version": "0.1.0",
+		"lane_id": "standard",
+		"lives": 4,
+		"losses": 1,
+		"ruleset_id": "standard",
+		"wins": 4
+	},
+	"round": 6,
+	"schema_version": 1
+}

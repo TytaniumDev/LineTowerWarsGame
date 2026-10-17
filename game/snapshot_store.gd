@@ -23,7 +23,7 @@ func save(snapshot: Snapshot) -> Error:
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		return FileAccess.get_open_error()
-	file.store_string(JSON.stringify(snapshot.to_dict(), "\t"))
+	file.store_string(JSON.stringify(snapshot.to_dict(), "\t", false))
 	file.close()
 	return OK
 

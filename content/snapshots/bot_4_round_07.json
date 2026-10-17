@@ -1,0 +1,98 @@
+{
+	"army": [
+		"tank",
+		"grunt",
+		"swarm",
+		"swarm",
+		"swarm",
+		"swarm",
+		"runner"
+	],
+	"economy": {
+		"gold": 1,
+		"income": 47
+	},
+	"maze": [
+		{
+			"cell": [
+				4,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				5,
+				1
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				6,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				3,
+				0
+			],
+			"tower_id": "frost"
+		},
+		{
+			"cell": [
+				7,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				8,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				9,
+				1
+			],
+			"tower_id": "frost"
+		},
+		{
+			"cell": [
+				10,
+				3
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				9,
+				3
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				8,
+				3
+			],
+			"tower_id": "arrow"
+		}
+	],
+	"meta": {
+		"draws": 1,
+		"game_version": "0.1.0",
+		"lane_id": "standard",
+		"lives": 0,
+		"losses": 5,
+		"ruleset_id": "standard",
+		"wins": 0
+	},
+	"round": 7,
+	"schema_version": 1
+}

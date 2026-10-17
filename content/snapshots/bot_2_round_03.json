@@ -1,0 +1,64 @@
+{
+	"army": [
+		"grunt"
+	],
+	"economy": {
+		"gold": 2,
+		"income": 19
+	},
+	"maze": [
+		{
+			"cell": [
+				4,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				5,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				6,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				3,
+				0
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				7,
+				1
+			],
+			"tower_id": "cannon"
+		},
+		{
+			"cell": [
+				8,
+				1
+			],
+			"tower_id": "cannon"
+		}
+	],
+	"meta": {
+		"draws": 0,
+		"game_version": "0.1.0",
+		"lane_id": "standard",
+		"lives": 4,
+		"losses": 1,
+		"ruleset_id": "standard",
+		"wins": 1
+	},
+	"round": 3,
+	"schema_version": 1
+}

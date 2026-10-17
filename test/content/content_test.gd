@@ -56,3 +56,14 @@ func test_rulesets_are_valid() -> void:
 		var rules: RulesetDef = res
 		assert_int(rules.waves.size()).is_greater(0)
 	_assert_valid_with_unique_ids(rulesets)
+
+
+func test_seed_snapshots_load() -> void:
+	var seeds := SnapshotStore.new("res://content/snapshots").load_all(
+		ContentLoader.load_registry()
+	)
+	assert_int(seeds.size()).is_greater(0)
+	var lane: LaneDef = load("res://content/lanes/standard.tres")
+	for snapshot: Snapshot in seeds:
+		# Every saved tower still fits the current lane.
+		assert_int(snapshot.duel_side(lane).towers.size()).is_equal(snapshot.maze.size())

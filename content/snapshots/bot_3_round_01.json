@@ -1,0 +1,41 @@
+{
+	"army": [
+		"grunt",
+		"grunt",
+		"swarm",
+		"swarm",
+		"swarm",
+		"swarm"
+	],
+	"economy": {
+		"gold": 2,
+		"income": 18
+	},
+	"maze": [
+		{
+			"cell": [
+				4,
+				1
+			],
+			"tower_id": "arrow"
+		},
+		{
+			"cell": [
+				5,
+				1
+			],
+			"tower_id": "frost"
+		}
+	],
+	"meta": {
+		"draws": 0,
+		"game_version": "0.1.0",
+		"lane_id": "standard",
+		"lives": 5,
+		"losses": 0,
+		"ruleset_id": "standard",
+		"wins": 0
+	},
+	"round": 1,
+	"schema_version": 1
+}
