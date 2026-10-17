@@ -6,6 +6,7 @@ extends Control
 signal closed
 
 const WINDOW_MODE_NAMES: Array[String] = ["Windowed", "Fullscreen", "Exclusive fullscreen"]
+const RENDERER_NAMES: Array[String] = ["2D top-down", "3D angled"]
 ## Actions shown on the Controls tab, with their labels, in display order.
 const CONTROL_ROWS: Array[Array] = [
 	[&"cursor_up", "Move cursor up"],
@@ -20,10 +21,12 @@ const CONTROL_ROWS: Array[Array] = [
 	[&"end_build", "Ready for battle"],
 	[&"cycle_speed", "Battle speed"],
 	[&"toggle_pause", "Pause menu"],
+	[&"toggle_renderer", "Switch 2D / 3D view"],
 ]
 
 var _tabs: TabContainer
 var _window_mode: OptionButton
+var _renderer: OptionButton
 var _vsync: CheckButton
 var _fps: OptionButton
 var _sliders: Dictionary[StringName, HSlider] = {}
@@ -99,6 +102,13 @@ func _graphics_tab() -> Control:
 		func(index: int) -> void: _change(func() -> void: Settings.window_mode = index)
 	)
 	_add_row(grid, "Window mode", _window_mode)
+	_renderer = OptionButton.new()
+	for renderer_name: String in RENDERER_NAMES:
+		_renderer.add_item(renderer_name)
+	_renderer.item_selected.connect(
+		func(index: int) -> void: _change(func() -> void: Settings.renderer = index)
+	)
+	_add_row(grid, "View", _renderer)
 	_vsync = CheckButton.new()
 	_vsync.toggled.connect(func(on: bool) -> void: _change(func() -> void: Settings.vsync = on))
 	_add_row(grid, "VSync", _vsync)
@@ -175,6 +185,7 @@ func _change(update: Callable) -> void:
 ## Shows the current settings without re-triggering change handlers.
 func _refresh() -> void:
 	_window_mode.select(Settings.window_mode)
+	_renderer.select(Settings.renderer)
 	_vsync.set_pressed_no_signal(Settings.vsync)
 	_fps.select(maxi(0, GameSettings.FPS_CAPS.find(Settings.max_fps)))
 	for bus: StringName in _sliders:

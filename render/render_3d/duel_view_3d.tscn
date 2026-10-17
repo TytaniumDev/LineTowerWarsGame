@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://render/render_3d/duel_view_3d.gd" id="1_duel"]
+[ext_resource type="Script" path="res://render/render_3d/lane_view_3d.gd" id="2_lane"]
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 1
+background_color = Color(0.31, 0.31, 0.31, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.6, 0.62, 0.68, 1)
+ambient_light_energy = 0.35
+
+[node name="DuelView3D" type="Node3D"]
+script = ExtResource("1_duel")
+
+[node name="Environment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.354, 0.354, 0, 0.707, 0.707, -0.5, -0.612, 0.612, 0, 10, 0)
+light_energy = 0.75
+shadow_enabled = true
+
+[node name="Camera" type="Camera3D" parent="."]
+projection = 1
+size = 30.0
+far = 200.0
+
+[node name="HomeLane" type="Node3D" parent="."]
+script = ExtResource("2_lane")
+
+[node name="Title" type="Label3D" parent="HomeLane"]
+pixel_size = 0.02
+billboard = 1
+text = "Your maze"
+
+[node name="AwayLane" type="Node3D" parent="."]
+visible = false
+script = ExtResource("2_lane")
+
+[node name="Title" type="Label3D" parent="AwayLane"]
+pixel_size = 0.02
+billboard = 1
+text = "Their maze"

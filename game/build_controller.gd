@@ -17,7 +17,10 @@ const REFUSALS: Dictionary[PlayerState.Result, String] = {
 	PlayerState.Result.NO_TOWER: "There's no tower there to sell.",
 }
 
-var view: LaneView2D
+## The home lane's view state, updated with the cursor.
+var state: LaneViewState
+## Returns the home lane cell under the mouse, or (-1, -1); set by the active renderer.
+var cell_at_mouse: Callable = func() -> Vector2i: return Vector2i(-1, -1)
 var player: PlayerState
 var towers: Array[TowerDef] = []
 var chosen_tower: int = 0
@@ -44,7 +47,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not active or player == null:
 		return
 	if event is InputEventMouse:
-		var cell := view.screen_to_cell(view.get_global_mouse_position())
+		var cell: Vector2i = cell_at_mouse.call()
 		if cell.x < 0:
 			return
 		if cell != cursor:
@@ -87,9 +90,8 @@ func _report(result: PlayerState.Result) -> void:
 
 
 func _update_view() -> void:
-	view.cursor_cell = cursor
-	view.cursor_ok = (
+	state.cursor_cell = cursor
+	state.cursor_ok = (
 		player.towers.has(cursor) or player.grid.check_place(cursor) == LaneGrid.PlaceResult.OK
 	)
-	view.queue_redraw()
 	changed.emit()

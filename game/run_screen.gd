@@ -1,10 +1,11 @@
 class_name RunScreen
 extends Node
-## One offline run: wires the sim, the top-down renderer and the UI together.
+## One offline run: wires the sim, the 2D and 3D renderers and the UI together.
 ##
 ## Build phase: edit your maze and buy sends, then ready up. Battle phase: both lanes play
 ## side by side (D42) until the duel ends, then Continue applies the result. The pause
-## action opens a menu in either phase.
+## action opens a menu in either phase. Both renderers draw from the same LaneViewStates,
+## so toggle_renderer (or the Options setting) swaps views live, even mid-battle.
 
 ## The player chose Options from the pause menu. Call `return_from_options()` when done.
 signal options_requested
@@ -34,12 +35,18 @@ var _speed_index: int = 0
 var _build_was_active: bool = false
 ## The last finished duel, kept so the run-over screen can still show its leaks.
 var _finished_duel: Duel
+var _home_state: LaneViewState = LaneViewState.new()
+var _away_state: LaneViewState = LaneViewState.new()
 
 @onready var _runner: SimRunner = $SimRunner
 @onready var _home_view: LaneView2D = $World/HomeLane
 @onready var _away_view: LaneView2D = $World/AwayLane
 @onready var _home_title: Label = $World/HomeTitle
 @onready var _away_title: Label = $World/AwayTitle
+@onready var _view_2d: Node2D = $World
+@onready var _view_3d_container: SubViewportContainer = $View3D
+@onready var _view_3d_viewport: SubViewport = $View3D/Viewport
+@onready var _view_3d: DuelView3D = $View3D/Viewport/DuelView3D
 @onready var _build: BuildController = $BuildController
 @onready var _build_panel: BuildPanel = $HUD/BuildPanel
 @onready var _battle_hud: BattleHud = $HUD/BattleHud
@@ -51,7 +58,13 @@ func _ready() -> void:
 	_rules = load(RULESET_PATH)
 	_lane = load(LANE_PATH)
 	var towers := _base_towers()
-	_build.view = _home_view
+	_home_view.state = _home_state
+	_away_view.state = _away_state
+	_view_3d.bind(_home_state, _away_state)
+	_build.state = _home_state
+	_build.cell_at_mouse = _cell_at_mouse
+	Settings.changed.connect(_show_active_renderer)
+	_show_active_renderer()
 	_build.towers = towers
 	_build.changed.connect(_refresh_build_panel)
 	_build.refused.connect(_build_panel.show_message)
@@ -77,8 +90,8 @@ func return_from_options() -> void:
 
 
 func _process(_delta: float) -> void:
-	_home_view.interpolation_alpha = _runner.interpolation_alpha
-	_away_view.interpolation_alpha = _runner.interpolation_alpha
+	_home_state.interpolation_alpha = _runner.interpolation_alpha
+	_away_state.interpolation_alpha = _runner.interpolation_alpha
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -86,6 +99,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("toggle_pause"):
 		_open_pause_menu()
+	elif event.is_action_pressed("toggle_renderer"):
+		Settings.toggle_renderer()
 	elif _run.phase == RunState.Phase.BUILD:
 		if event.is_action_pressed("switch_focus"):
 			_toggle_panel_focus()
@@ -143,7 +158,7 @@ func _start_run() -> void:
 
 func _enter_build() -> void:
 	_runner.paused = false
-	_home_view.show_build(_run.player)
+	_home_state.show_build(_run.player)
 	_away_view.visible = false
 	_away_title.visible = false
 	_home_title.text = "Your maze"
@@ -162,8 +177,8 @@ func _start_battle() -> void:
 	var saved := _store.save(own)
 	if saved != OK:
 		push_warning("Couldn't save this round's snapshot: %s" % error_string(saved))
-	_home_view.show_battle(_run.duel.home)
-	_away_view.show_battle(_run.duel.away)
+	_home_state.show_battle(_run.duel.home)
+	_away_state.show_battle(_run.duel.away)
 	_away_view.visible = true
 	_away_title.visible = true
 	_home_title.text = "Your maze"
@@ -177,8 +192,8 @@ func _start_battle() -> void:
 func _on_ticked(_tick: int) -> void:
 	if _run.phase != RunState.Phase.BATTLE:
 		return
-	_home_view.on_ticked()
-	_away_view.on_ticked()
+	_home_state.on_ticked()
+	_away_state.on_ticked()
 	_refresh_battle_hud()
 
 
@@ -265,6 +280,27 @@ func _layout(battle: bool) -> void:
 		next_x += lane_width + MARGIN * 2
 	_build_panel.position = Vector2(next_x, LANE_TOP)
 	_battle_hud.position = Vector2(next_x, LANE_TOP)
+	# The 3D view fills the space left of the side panel.
+	_view_3d_container.position = Vector2.ZERO
+	_view_3d_container.size = Vector2(next_x - MARGIN, get_viewport().get_visible_rect().size.y)
+	_view_3d.set_battle_layout(battle, _lane)
+
+
+func _show_active_renderer() -> void:
+	var use_3d := Settings.renderer == GameSettings.Renderer.ANGLED_3D
+	_view_3d_container.visible = use_3d
+	# Don't spend GPU time on the 3D view while it's hidden.
+	_view_3d_viewport.render_target_update_mode = (
+		SubViewport.UPDATE_ALWAYS if use_3d else SubViewport.UPDATE_DISABLED
+	)
+	_view_3d.process_mode = PROCESS_MODE_INHERIT if use_3d else PROCESS_MODE_DISABLED
+	_view_2d.visible = not use_3d
+
+
+func _cell_at_mouse() -> Vector2i:
+	if _view_3d_container.visible:
+		return _view_3d.screen_to_cell(_view_3d_container.get_local_mouse_position())
+	return _home_view.screen_to_cell(_home_view.get_global_mouse_position())
 
 
 ## Towers you can build directly, cheapest first. Upgrades are reached from these.

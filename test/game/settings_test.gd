@@ -18,6 +18,7 @@ func test_values_survive_a_save_and_load() -> void:
 	saved.window_mode = GameSettings.WindowMode.FULLSCREEN
 	saved.vsync = false
 	saved.max_fps = 60
+	saved.renderer = GameSettings.Renderer.ANGLED_3D
 	saved.volumes[&"Music"] = 25
 	assert_int(saved.save()).is_equal(OK)
 	var loaded := _settings()
@@ -25,6 +26,7 @@ func test_values_survive_a_save_and_load() -> void:
 	assert_int(loaded.window_mode).is_equal(GameSettings.WindowMode.FULLSCREEN)
 	assert_bool(loaded.vsync).is_false()
 	assert_int(loaded.max_fps).is_equal(60)
+	assert_int(loaded.renderer).is_equal(GameSettings.Renderer.ANGLED_3D)
 	assert_int(loaded.volumes[&"Music"]).is_equal(25)
 
 

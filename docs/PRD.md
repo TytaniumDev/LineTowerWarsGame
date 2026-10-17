@@ -195,3 +195,4 @@ Stored as JSON. Maze and army are separable.
 | D42 | Battle view | Both lanes side by side with leak counters | 2026-10-17 |
 | D43 | Control rebinding | Later; the Controls tab lists bindings for now (Steam Input covers remapping on Deck) | 2026-10-17 |
 | D44 | Graphics options | Basics first (window mode, VSync, FPS cap); 3D quality settings arrive with the 3D view | 2026-10-17 |
+| D45 | Live 2D/3D renderer switch | F3 / L3 (left-stick click) toggles mid-game, plus a saved "View" setting in Options → Graphics. L3 rather than Back+Y because Back opens the pause menu | 2026-10-17 |

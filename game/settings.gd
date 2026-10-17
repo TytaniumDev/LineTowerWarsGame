@@ -9,6 +9,7 @@ extends Node
 signal changed
 
 enum WindowMode { WINDOWED, FULLSCREEN, EXCLUSIVE_FULLSCREEN }
+enum Renderer { TOP_DOWN_2D, ANGLED_3D }
 
 const DEFAULT_PATH: String = "user://settings.cfg"
 ## FPS cap choices offered in the options menu; 0 means uncapped.
@@ -18,6 +19,8 @@ const AUDIO_BUSES: Array[StringName] = [&"Master", &"Music", &"SFX"]
 var window_mode: WindowMode = WindowMode.WINDOWED
 var vsync: bool = true
 var max_fps: int = 0
+## Which view draws the game. Swappable live with the toggle_renderer action.
+var renderer: Renderer = Renderer.TOP_DOWN_2D
 ## Volume per audio bus, 0 to 100.
 var volumes: Dictionary[StringName, int] = {&"Master": 80, &"Music": 70, &"SFX": 80}
 
@@ -37,6 +40,9 @@ func load_settings() -> void:
 	var mode := int(config.get_value("graphics", "window_mode", window_mode))
 	if mode >= 0 and mode < WindowMode.size():
 		window_mode = mode as WindowMode
+	var view := int(config.get_value("graphics", "renderer", renderer))
+	if view >= 0 and view < Renderer.size():
+		renderer = view as Renderer
 	vsync = bool(config.get_value("graphics", "vsync", vsync))
 	max_fps = maxi(0, int(config.get_value("graphics", "max_fps", max_fps)))
 	for bus: StringName in AUDIO_BUSES:
@@ -46,6 +52,7 @@ func load_settings() -> void:
 func save() -> Error:
 	var config := ConfigFile.new()
 	config.set_value("graphics", "window_mode", window_mode)
+	config.set_value("graphics", "renderer", renderer)
 	config.set_value("graphics", "vsync", vsync)
 	config.set_value("graphics", "max_fps", max_fps)
 	for bus: StringName in AUDIO_BUSES:
@@ -67,6 +74,13 @@ func apply() -> void:
 			AudioServer.set_bus_volume_db(index, linear_to_db(volumes[bus] / 100.0))
 			AudioServer.set_bus_mute(index, volumes[bus] == 0)
 	changed.emit()
+
+
+## Switches between the 2D and 3D views, then applies and saves the choice.
+func toggle_renderer() -> void:
+	renderer = Renderer.ANGLED_3D if renderer == Renderer.TOP_DOWN_2D else Renderer.TOP_DOWN_2D
+	apply()
+	save()
 
 
 func _display_mode() -> DisplayServer.WindowMode:
