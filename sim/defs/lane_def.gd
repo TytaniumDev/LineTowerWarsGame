@@ -11,6 +11,8 @@ extends Resource
 @export var spawn_cells: Array[Vector2i] = []
 ## Cells creeps walk to; reaching one counts as a leak. Towers can't be built on them.
 @export var exit_cells: Array[Vector2i] = []
+## Whether creeps may move diagonally. They never cut between two corner-touching towers.
+@export var allow_diagonal: bool = true
 
 
 func contains(cell: Vector2i) -> bool:
