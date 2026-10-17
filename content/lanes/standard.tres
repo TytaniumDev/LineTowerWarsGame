@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="LaneDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/lane_def.gd" id="1_48y14"]
+
+[resource]
+script = ExtResource("1_48y14")
+id = &"standard"
+spawn_cells = Array[Vector2i]([Vector2i(4, 0), Vector2i(5, 0), Vector2i(6, 0)])
+exit_cells = Array[Vector2i]([Vector2i(4, 29), Vector2i(5, 29), Vector2i(6, 29)])

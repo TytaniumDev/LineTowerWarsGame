@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CreepDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/creep_def.gd" id="1_kr54t"]
+
+[resource]
+script = ExtResource("1_kr54t")
+id = &"grunt"
+display_name = "Grunt"
+max_hp = 60
+bounty = 2
+armor = 1
+send_cost = 5
+income_bonus = 1

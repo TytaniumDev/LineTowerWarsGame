@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CreepDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/creep_def.gd" id="1_0mfhl"]
+
+[resource]
+script = ExtResource("1_0mfhl")
+id = &"tank"
+display_name = "Tank"
+max_hp = 240
+speed = 600
+bounty = 6
+armor = 4
+send_cost = 15
+income_bonus = 3

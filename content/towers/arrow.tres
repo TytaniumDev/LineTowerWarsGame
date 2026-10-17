@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TowerDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_dc27g"]
+
+[resource]
+script = ExtResource("1_dc27g")
+id = &"arrow"
+display_name = "Arrow"
+cost = 10
+attack_range = 3000
+damage = 10
+attack_interval = 20
