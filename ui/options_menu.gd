@@ -7,6 +7,8 @@ signal closed
 
 const WINDOW_MODE_NAMES: Array[String] = ["Windowed", "Fullscreen", "Exclusive fullscreen"]
 const RENDERER_NAMES: Array[String] = ["2D top-down", "3D angled"]
+const SHADOW_NAMES: Array[String] = ["Off", "Low", "High"]
+const ANTI_ALIASING_NAMES: Array[String] = ["Off", "2x MSAA", "4x MSAA"]
 ## Actions shown on the Controls tab, with their labels, in display order.
 const CONTROL_ROWS: Array[Array] = [
 	[&"cursor_up", "Move cursor up"],
@@ -29,6 +31,9 @@ var _window_mode: OptionButton
 var _renderer: OptionButton
 var _vsync: CheckButton
 var _fps: OptionButton
+var _shadows: OptionButton
+var _anti_aliasing: OptionButton
+var _render_scale: OptionButton
 var _sliders: Dictionary[StringName, HSlider] = {}
 
 
@@ -120,7 +125,30 @@ func _graphics_tab() -> Control:
 			_change(func() -> void: Settings.max_fps = GameSettings.FPS_CAPS[index])
 	)
 	_add_row(grid, "FPS cap", _fps)
+	_shadows = _choice(SHADOW_NAMES, func(index: int) -> void: Settings.shadows = index)
+	_add_row(grid, "3D shadows", _shadows)
+	_anti_aliasing = _choice(
+		ANTI_ALIASING_NAMES, func(index: int) -> void: Settings.anti_aliasing = index
+	)
+	_add_row(grid, "3D anti-aliasing", _anti_aliasing)
+	var scale_names: Array[String] = []
+	for scale: int in GameSettings.RENDER_SCALES:
+		scale_names.append("%d%%" % scale)
+	_render_scale = _choice(
+		scale_names,
+		func(index: int) -> void: Settings.render_scale = GameSettings.RENDER_SCALES[index]
+	)
+	_add_row(grid, "3D render scale", _render_scale)
 	return grid.get_parent()
+
+
+## A dropdown of `names` that calls `update` with the chosen index, then applies it.
+func _choice(names: Array[String], update: Callable) -> OptionButton:
+	var input := OptionButton.new()
+	for item_name: String in names:
+		input.add_item(item_name)
+	input.item_selected.connect(func(index: int) -> void: _change(update.bind(index)))
+	return input
 
 
 func _audio_tab() -> Control:
@@ -188,5 +216,8 @@ func _refresh() -> void:
 	_renderer.select(Settings.renderer)
 	_vsync.set_pressed_no_signal(Settings.vsync)
 	_fps.select(maxi(0, GameSettings.FPS_CAPS.find(Settings.max_fps)))
+	_shadows.select(Settings.shadows)
+	_anti_aliasing.select(Settings.anti_aliasing)
+	_render_scale.select(maxi(0, GameSettings.RENDER_SCALES.find(Settings.render_scale)))
 	for bus: StringName in _sliders:
 		_sliders[bus].set_value_no_signal(Settings.volumes[bus])
