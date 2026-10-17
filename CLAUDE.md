@@ -19,7 +19,7 @@ Guidance for anyone (Claude or human) changing this repo. The product spec is
 | `content/` | Data-only `.tres` Resources: towers, creeps, lanes, rulesets. |
 | `render/render_2d/`, `render/render_3d/` | Renderers that observe the sim and draw it. |
 | `ui/` | Menus, HUD and debug menus. |
-| `game/` | Entry scene and app flow that wires sim, renderer and UI together. |
+| `game/` | Entry scene and app flow that wires sim, renderer and UI together. `SimRunner` drives the sim's fixed tick from frame time. |
 | `test/` | gdUnit4 suites, mirroring the source path (`sim/foo.gd` → `test/sim/foo_test.gd`). |
 
 Folders are created when their first file lands. Scenes live next to their scripts.
@@ -31,8 +31,10 @@ Folders are created when their first file lands. Scenes live next to their scrip
 - If something only works in one renderer, logic has leaked out of the sim.
 - Determinism, from day one:
   1. No physics engine for gameplay; grid math only.
-  2. Integers or fixed-point for anything that affects outcomes. No floats in `sim/`.
-  3. Randomness only from the sim's seeded RNG, never `randi()`/`randf()` or global state.
+  2. Integers for anything that affects outcomes; no floats in `sim/`. Distances and speeds
+     are milli-cells (`SimConfig.UNITS_PER_CELL` = 1000).
+  3. Randomness only from `GameSim.rng` (`SimRng`), never `randi()`/`randf()` or global state.
+     If the golden-sequence test fails after a Godot upgrade, stored snapshots won't replay.
   4. Pathing via `AStarGrid2D` with deterministic tie-breaking.
 - Tunable numbers live in content Resources, not code. Rules Tyler wants to playtest are
   swappable `RulesetDef` variants, not hardcoded branches.
