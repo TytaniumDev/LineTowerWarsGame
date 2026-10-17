@@ -9,12 +9,40 @@ const LANE_GAP: float = 3.0
 const CAMERA_PITCH: float = 55.0
 ## Extra space around the lanes in the camera frame, in cells.
 const FRAME_MARGIN: float = 2.0
+## Directional shadow map size per shadow quality setting.
+const SHADOW_ATLAS_SIZES: Dictionary[GameSettings.ShadowQuality, int] = {
+	GameSettings.ShadowQuality.LOW: 2048,
+	GameSettings.ShadowQuality.HIGH: 4096,
+}
+const MSAA_MODES: Dictionary[GameSettings.AntiAliasing, Viewport.MSAA] = {
+	GameSettings.AntiAliasing.OFF: Viewport.MSAA_DISABLED,
+	GameSettings.AntiAliasing.MSAA_2X: Viewport.MSAA_2X,
+	GameSettings.AntiAliasing.MSAA_4X: Viewport.MSAA_4X,
+}
 
 @onready var _home: LaneView3D = $HomeLane
 @onready var _away: LaneView3D = $AwayLane
 @onready var _home_title: Label3D = $HomeLane/Title
 @onready var _away_title: Label3D = $AwayLane/Title
 @onready var _camera: Camera3D = $Camera
+@onready var _sun: DirectionalLight3D = $Sun
+
+
+func _ready() -> void:
+	Settings.changed.connect(apply_graphics)
+	apply_graphics()
+
+
+## Applies the 3D quality settings to this view's light and viewport.
+func apply_graphics() -> void:
+	_sun.shadow_enabled = Settings.shadows != GameSettings.ShadowQuality.OFF
+	if _sun.shadow_enabled:
+		RenderingServer.directional_shadow_atlas_set_size(
+			SHADOW_ATLAS_SIZES[Settings.shadows], true
+		)
+	var viewport := get_viewport()
+	viewport.msaa_3d = MSAA_MODES[Settings.anti_aliasing]
+	viewport.scaling_3d_scale = Settings.render_scale / 100.0
 
 
 ## Connects the lane views to the states they draw.

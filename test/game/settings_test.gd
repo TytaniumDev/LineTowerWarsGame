@@ -19,6 +19,9 @@ func test_values_survive_a_save_and_load() -> void:
 	saved.vsync = false
 	saved.max_fps = 60
 	saved.renderer = GameSettings.Renderer.ANGLED_3D
+	saved.shadows = GameSettings.ShadowQuality.OFF
+	saved.anti_aliasing = GameSettings.AntiAliasing.MSAA_4X
+	saved.render_scale = 70
 	saved.volumes[&"Music"] = 25
 	assert_int(saved.save()).is_equal(OK)
 	var loaded := _settings()
@@ -27,6 +30,9 @@ func test_values_survive_a_save_and_load() -> void:
 	assert_bool(loaded.vsync).is_false()
 	assert_int(loaded.max_fps).is_equal(60)
 	assert_int(loaded.renderer).is_equal(GameSettings.Renderer.ANGLED_3D)
+	assert_int(loaded.shadows).is_equal(GameSettings.ShadowQuality.OFF)
+	assert_int(loaded.anti_aliasing).is_equal(GameSettings.AntiAliasing.MSAA_4X)
+	assert_int(loaded.render_scale).is_equal(70)
 	assert_int(loaded.volumes[&"Music"]).is_equal(25)
 
 
@@ -40,11 +46,13 @@ func test_missing_file_keeps_defaults() -> void:
 func test_invalid_values_are_clamped_or_ignored() -> void:
 	var config := ConfigFile.new()
 	config.set_value("graphics", "window_mode", 99)
+	config.set_value("graphics", "render_scale", 33)
 	config.set_value("audio", "SFX", 400)
 	config.save(PATH)
 	var settings := _settings()
 	settings.load_settings()
 	assert_int(settings.window_mode).is_equal(GameSettings.WindowMode.WINDOWED)
+	assert_int(settings.render_scale).is_equal(100)
 	assert_int(settings.volumes[&"SFX"]).is_equal(100)
 
 

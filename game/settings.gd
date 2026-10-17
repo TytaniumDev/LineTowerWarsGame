@@ -10,10 +10,14 @@ signal changed
 
 enum WindowMode { WINDOWED, FULLSCREEN, EXCLUSIVE_FULLSCREEN }
 enum Renderer { TOP_DOWN_2D, ANGLED_3D }
+enum ShadowQuality { OFF, LOW, HIGH }
+enum AntiAliasing { OFF, MSAA_2X, MSAA_4X }
 
 const DEFAULT_PATH: String = "user://settings.cfg"
 ## FPS cap choices offered in the options menu; 0 means uncapped.
 const FPS_CAPS: Array[int] = [30, 60, 90, 120, 144, 0]
+## 3D render scale choices, in percent of the window resolution.
+const RENDER_SCALES: Array[int] = [50, 60, 70, 80, 90, 100]
 const AUDIO_BUSES: Array[StringName] = [&"Master", &"Music", &"SFX"]
 
 var window_mode: WindowMode = WindowMode.WINDOWED
@@ -21,6 +25,11 @@ var vsync: bool = true
 var max_fps: int = 0
 ## Which view draws the game. Swappable live with the toggle_renderer action.
 var renderer: Renderer = Renderer.TOP_DOWN_2D
+## 3D view quality. The 3D renderer reads these when `changed` fires.
+var shadows: ShadowQuality = ShadowQuality.HIGH
+var anti_aliasing: AntiAliasing = AntiAliasing.MSAA_2X
+## Percent of the window resolution the 3D view renders at; one of RENDER_SCALES.
+var render_scale: int = 100
 ## Volume per audio bus, 0 to 100.
 var volumes: Dictionary[StringName, int] = {&"Master": 80, &"Music": 70, &"SFX": 80}
 
@@ -43,6 +52,15 @@ func load_settings() -> void:
 	var view := int(config.get_value("graphics", "renderer", renderer))
 	if view >= 0 and view < Renderer.size():
 		renderer = view as Renderer
+	var shadow := int(config.get_value("graphics", "shadows", shadows))
+	if shadow >= 0 and shadow < ShadowQuality.size():
+		shadows = shadow as ShadowQuality
+	var aa := int(config.get_value("graphics", "anti_aliasing", anti_aliasing))
+	if aa >= 0 and aa < AntiAliasing.size():
+		anti_aliasing = aa as AntiAliasing
+	var scale := int(config.get_value("graphics", "render_scale", render_scale))
+	if scale in RENDER_SCALES:
+		render_scale = scale
 	vsync = bool(config.get_value("graphics", "vsync", vsync))
 	max_fps = maxi(0, int(config.get_value("graphics", "max_fps", max_fps)))
 	for bus: StringName in AUDIO_BUSES:
@@ -53,6 +71,9 @@ func save() -> Error:
 	var config := ConfigFile.new()
 	config.set_value("graphics", "window_mode", window_mode)
 	config.set_value("graphics", "renderer", renderer)
+	config.set_value("graphics", "shadows", shadows)
+	config.set_value("graphics", "anti_aliasing", anti_aliasing)
+	config.set_value("graphics", "render_scale", render_scale)
 	config.set_value("graphics", "vsync", vsync)
 	config.set_value("graphics", "max_fps", max_fps)
 	for bus: StringName in AUDIO_BUSES:
