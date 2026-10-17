@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TowerDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_u2xa1"]
+
+[resource]
+script = ExtResource("1_u2xa1")
+id = &"cannon"
+display_name = "Cannon"
+cost = 15
+attack_range = 2500
+damage = 8
+attack_interval = 36
+splash_radius = 1000

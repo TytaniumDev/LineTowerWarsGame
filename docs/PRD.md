@@ -179,3 +179,5 @@ Stored as JSON. Maze and army are separable.
 | D27 | Pinned versions | Godot 4.7.2, gdUnit4 6.2.2, gdtoolkit 4.5.0 | 2026-10-17 |
 | D28 | Sim number format | Integer milli-cells (1000 units = 1 cell) | 2026-10-17 |
 | D29 | Sim RNG | Godot's RandomNumberGenerator, wrapped in `SimRng` (integer-only), with a golden-sequence test to catch engine changes | 2026-10-17 |
+| D30 | Armor | Flat armor subtracted per hit, minimum 1 damage | 2026-10-17 |
+| D31 | Tower targeting | Set per tower type (First, Closest, Strongest, Unslowed) | 2026-10-17 |

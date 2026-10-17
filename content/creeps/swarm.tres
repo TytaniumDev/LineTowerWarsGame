@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CreepDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/creep_def.gd" id="1_skt5v"]
+
+[resource]
+script = ExtResource("1_skt5v")
+id = &"swarm"
+display_name = "Swarm"
+max_hp = 20
+speed = 1200
+bounty = 1
+send_cost = 6
+income_bonus = 1
+group_size = 4

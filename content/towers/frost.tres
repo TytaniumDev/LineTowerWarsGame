@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TowerDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_irw8o"]
+
+[resource]
+script = ExtResource("1_irw8o")
+id = &"frost"
+display_name = "Frost"
+cost = 12
+attack_range = 2500
+damage = 2
+targeting = 3
+slow_percent = 40
+slow_duration = 60

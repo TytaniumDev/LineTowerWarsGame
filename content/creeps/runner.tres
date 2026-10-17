@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CreepDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/creep_def.gd" id="1_hes32"]
+
+[resource]
+script = ExtResource("1_hes32")
+id = &"runner"
+display_name = "Runner"
+max_hp = 35
+speed = 2000
+bounty = 2
+send_cost = 8
+income_bonus = 2
