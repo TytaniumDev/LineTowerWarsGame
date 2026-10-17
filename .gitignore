@@ -1,0 +1,13 @@
+# Godot
+.godot/
+/android/
+
+# Exports
+build/
+
+# gdUnit4 reports
+reports/
+
+# OS
+.DS_Store
+Thumbs.db
