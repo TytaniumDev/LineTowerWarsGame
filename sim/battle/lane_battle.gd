@@ -52,6 +52,11 @@ func is_finished() -> bool:
 	return _spawn_queue.is_empty() and creeps.is_empty() and shots.is_empty()
 
 
+## Creeps that have neither died nor leaked yet, including those still waiting to spawn.
+func unresolved_count() -> int:
+	return creeps.size() + _spawn_queue.size()
+
+
 func step() -> void:
 	_spawn_due()
 	_move_creeps()

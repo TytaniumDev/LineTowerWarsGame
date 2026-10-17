@@ -142,3 +142,43 @@ func test_run_ends_at_zero_lives_or_enough_wins() -> void:
 	player.wins = 0
 	player.lives = 0
 	assert_bool(player.is_run_over()).is_true()
+
+
+func test_win_counts_and_pays_bounty() -> void:
+	var player := _player()
+	player.finish_round(Duel.Outcome.WIN, 8)
+	assert_int(player.wins).is_equal(1)
+	assert_int(player.lives).is_equal(3)
+	assert_int(player.gold).is_equal(108)
+
+
+func test_loss_costs_a_life() -> void:
+	var player := _player()
+	player.finish_round(Duel.Outcome.LOSS, 0)
+	assert_int(player.losses).is_equal(1)
+	assert_int(player.lives).is_equal(2)
+
+
+func test_draw_keeps_lives() -> void:
+	var player := _player()
+	player.finish_round(Duel.Outcome.DRAW, 0)
+	assert_int(player.draws).is_equal(1)
+	assert_int(player.lives).is_equal(3)
+
+
+func test_bounty_is_scaled_by_the_ruleset() -> void:
+	var player := _player()
+	player.ruleset.bounty_percent = 50
+	player.finish_round(Duel.Outcome.WIN, 9)
+	assert_int(player.gold).is_equal(104)
+
+
+func test_duel_side_copies_the_army() -> void:
+	var player := _player()
+	var creep := CreepDef.new()
+	creep.group_size = 1
+	player.buy_send(creep)
+	var side := player.duel_side()
+	player.undo_last_send()
+	assert_int(side.army.size()).is_equal(1)
+	assert_int(side.towers.size()).is_equal(0)
