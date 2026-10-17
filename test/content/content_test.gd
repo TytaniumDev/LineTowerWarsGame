@@ -46,3 +46,13 @@ func test_lanes_are_valid() -> void:
 	for res: Resource in lanes:
 		assert_object(res).is_instanceof(LaneDef)
 	_assert_valid_with_unique_ids(lanes)
+
+
+func test_rulesets_are_valid() -> void:
+	var rulesets := _load_all("res://content/rulesets")
+	assert_int(rulesets.size()).is_greater(0)
+	for res: Resource in rulesets:
+		assert_object(res).is_instanceof(RulesetDef)
+		var rules: RulesetDef = res
+		assert_int(rules.waves.size()).is_greater(0)
+	_assert_valid_with_unique_ids(rulesets)
