@@ -1,18 +1,46 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://game/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://game/sim_runner.gd" id="2_runner"]
+[ext_resource type="Script" path="res://render/render_2d/lane_view_2d.gd" id="3_lane"]
+[ext_resource type="Script" path="res://game/build_controller.gd" id="4_build"]
+[ext_resource type="Script" path="res://ui/build_panel.gd" id="5_panel"]
+[ext_resource type="Script" path="res://ui/battle_hud.gd" id="6_hud"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_main")
 
-[node name="Title" type="Label" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Line Tower Wars"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="SimRunner" type="Node" parent="."]
+script = ExtResource("2_runner")
+
+[node name="BuildController" type="Node" parent="."]
+script = ExtResource("4_build")
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="HomeTitle" type="Label" parent="World"]
+offset_right = 264.0
+offset_bottom = 24.0
+text = "Your maze"
+
+[node name="HomeLane" type="Node2D" parent="World"]
+script = ExtResource("3_lane")
+
+[node name="AwayTitle" type="Label" parent="World"]
+visible = false
+offset_right = 264.0
+offset_bottom = 24.0
+text = "Their maze"
+
+[node name="AwayLane" type="Node2D" parent="World"]
+visible = false
+script = ExtResource("3_lane")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="BuildPanel" type="PanelContainer" parent="HUD"]
+script = ExtResource("5_panel")
+
+[node name="BattleHud" type="PanelContainer" parent="HUD"]
+visible = false
+script = ExtResource("6_hud")

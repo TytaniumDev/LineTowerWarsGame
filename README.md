@@ -11,3 +11,18 @@ mazing and creep sends with async battles against other players' saved builds.
 1. Install [Godot 4.7.2](https://godotengine.org/download) and Git LFS (`git lfs install`).
 2. Open `project.godot` in Godot and press Play.
 3. Run the tests from the gdUnit4 panel in the editor, or see the commands in `CLAUDE.md`.
+
+## Controls
+
+| Action | Keyboard / mouse | Controller |
+| --- | --- | --- |
+| Move the build cursor | Arrows / WASD / mouse | D-pad / left stick |
+| Place the chosen tower | Space / left click | A |
+| Sell the tower under the cursor | X / right click | X |
+| Previous / next tower type | Q / E | LB / RB |
+| Switch between maze and side panel | Tab | Y |
+| Ready for battle | Enter | Start |
+| Pause the battle | P | Back |
+| Change battle speed (×1, ×2, ×4) | F | Right stick click |
+
+All of these are Godot input actions (Project Settings → Input Map), so they can be rebound.

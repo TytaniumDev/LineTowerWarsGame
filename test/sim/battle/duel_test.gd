@@ -132,3 +132,9 @@ func test_same_inputs_give_the_same_result() -> void:
 	assert_int(a.tick).is_equal(b.tick)
 	assert_int(a.home_leaks()).is_equal(b.home_leaks())
 	assert_int(a.away_leaks()).is_equal(b.away_leaks())
+
+
+func test_leaks_mid_battle_count_only_creeps_that_got_through() -> void:
+	var duel := Duel.new(_rules(), _wave(3), _empty_side(), _empty_side())
+	duel.step()
+	assert_int(duel.home_leaks()).is_equal(0)

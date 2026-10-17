@@ -14,18 +14,19 @@ var phase: Phase = Phase.BUILD
 var duel: Duel
 ## The snapshot being fought this round; null if the pool had none.
 var opponent: Snapshot
+## The owning GameSim's generator; used for opponent picks.
 var rng: SimRng
 
 var _pool: Array[Snapshot] = []
 
 
 func _init(
-	rules: RulesetDef, lane_def: LaneDef, opponent_pool: Array[Snapshot], seed_value: int
+	rules: RulesetDef, lane_def: LaneDef, opponent_pool: Array[Snapshot], sim_rng: SimRng
 ) -> void:
 	lane = lane_def
 	player = PlayerState.new(rules, lane_def)
 	_pool = opponent_pool
-	rng = SimRng.new(seed_value)
+	rng = sim_rng
 	player.start_round()
 
 
