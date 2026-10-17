@@ -21,7 +21,7 @@ var view: LaneView2D
 var player: PlayerState
 var towers: Array[TowerDef] = []
 var chosen_tower: int = 0
-var cursor: Vector2i = Vector2i.ZERO
+var cursor: Vector2i = Vector2i(-1, -1)
 ## False while another control (the panel) has input focus, or outside the build phase.
 var active: bool = false
 

@@ -17,7 +17,15 @@ func setup() -> void:
 	_status = Label.new()
 	box.add_child(_status)
 	var hint := Label.new()
-	hint.text = "P / Back: pause    F / R3: speed"
+	hint.text = (
+		"%s, %s: menu\n%s, %s: speed"
+		% [
+			InputLabels.keyboard_mouse(&"toggle_pause"),
+			InputLabels.controller(&"toggle_pause"),
+			InputLabels.keyboard_mouse(&"cycle_speed"),
+			InputLabels.controller(&"cycle_speed"),
+		]
+	)
 	hint.modulate = Color(0.7, 0.75, 0.8)
 	box.add_child(hint)
 	_result = Label.new()

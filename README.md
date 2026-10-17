@@ -22,7 +22,7 @@ mazing and creep sends with async battles against other players' saved builds.
 | Previous / next tower type | Q / E | LB / RB |
 | Switch between maze and side panel | Tab | Y |
 | Ready for battle | Enter | Start |
-| Pause the battle | P | Back |
+| Open the pause menu (pauses battles) | Esc / P | Back |
 | Change battle speed (×1, ×2, ×4) | F | Right stick click |
 
 All of these are Godot input actions (Project Settings → Input Map), so they can be rebound.
