@@ -1,6 +1,8 @@
-[gd_resource type="Resource" script_class="TowerDef" format=3]
+[gd_resource type="Resource" script_class="TowerDef" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_dc27g"]
+[ext_resource type="Resource" path="res://content/towers/upgrades/sniper.tres" id="2_sniper"]
+[ext_resource type="Resource" path="res://content/towers/upgrades/rapid.tres" id="3_rapid"]
 
 [resource]
 script = ExtResource("1_dc27g")
@@ -11,3 +13,4 @@ attack_range = 3000
 damage = 10
 projectile_speed = 12000
 attack_interval = 20
+upgrades = Array[ExtResource("1_dc27g")]([ExtResource("2_sniper"), ExtResource("3_rapid")])

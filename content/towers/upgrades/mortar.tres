@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TowerDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_tower"]
+
+[resource]
+script = ExtResource("1_tower")
+id = &"mortar"
+display_name = "Mortar"
+cost = 25
+attack_range = 4500
+damage = 14
+attack_interval = 60
+projectile_speed = 6000
+splash_radius = 2000

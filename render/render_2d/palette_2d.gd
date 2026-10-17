@@ -17,6 +17,13 @@ const TOWERS: Dictionary[StringName, Color] = {
 	&"arrow": Color(0.45, 0.75, 0.35),
 	&"cannon": Color(0.9, 0.55, 0.2),
 	&"frost": Color(0.4, 0.8, 0.95),
+	# Upgrades are shades of their base tower's color.
+	&"sniper": Color(0.25, 0.5, 0.2),
+	&"rapid": Color(0.7, 0.95, 0.5),
+	&"mortar": Color(0.7, 0.35, 0.1),
+	&"bombard": Color(1, 0.75, 0.4),
+	&"glacier": Color(0.2, 0.5, 0.85),
+	&"blizzard": Color(0.75, 0.95, 1),
 }
 const CREEPS: Dictionary[StringName, Color] = {
 	&"grunt": Color(0.85, 0.8, 0.7),

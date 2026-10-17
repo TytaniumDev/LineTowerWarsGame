@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TowerDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_tower"]
+
+[resource]
+script = ExtResource("1_tower")
+id = &"glacier"
+display_name = "Glacier"
+cost = 18
+attack_range = 3000
+damage = 3
+targeting = 3
+projectile_speed = 10000
+slow_percent = 60
+slow_duration = 90

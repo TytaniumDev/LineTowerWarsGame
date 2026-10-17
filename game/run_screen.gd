@@ -72,8 +72,10 @@ func _ready() -> void:
 	_build.towers = towers
 	_build.changed.connect(_refresh_build_panel)
 	_build.refused.connect(_build_panel.show_message)
+	_build.upgrade_choice_needed.connect(_choose_upgrade)
 	_build_panel.setup(towers, _sorted_creeps())
 	_build_panel.tower_chosen.connect(_build.choose_tower)
+	_build_panel.upgrade_chosen.connect(_on_upgrade_chosen)
 	_build_panel.send_requested.connect(_on_send_requested)
 	_build_panel.undo_send_requested.connect(_on_undo_send)
 	_build_panel.ready_pressed.connect(_start_battle)
@@ -101,13 +103,17 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _run == null or _is_paused():
 		return
-	if event.is_action_pressed("toggle_pause"):
+	if event.is_action_pressed("ui_cancel") and _build_panel.upgrades_focused():
+		# Back out of picking an upgrade before Escape can open the pause menu.
+		_return_to_maze()
+	elif event.is_action_pressed("toggle_pause"):
 		_open_pause_menu()
 	elif event.is_action_pressed("toggle_renderer"):
 		Settings.toggle_renderer()
 	elif _run.phase == RunState.Phase.BUILD:
 		if event.is_action_pressed("switch_focus"):
 			_toggle_panel_focus()
+
 		elif event.is_action_pressed("end_build"):
 			_start_battle()
 		else:
@@ -232,14 +238,33 @@ func _toggle_panel_focus() -> void:
 		_build.active = false
 		_build_panel.grab_panel_focus()
 	else:
-		var focused := get_viewport().gui_get_focus_owner()
-		if focused != null:
-			focused.release_focus()
-		_build.active = true
+		_return_to_maze()
+
+
+func _return_to_maze() -> void:
+	var focused := get_viewport().gui_get_focus_owner()
+	if focused != null:
+		focused.release_focus()
+	_build.active = true
+
+
+## The tower under the cursor has several upgrades: let the player pick one in the panel.
+func _choose_upgrade() -> void:
+	if _build_panel.focus_upgrades():
+		_build.active = false
+	else:
+		_build_panel.show_message("Not enough gold.")
+
+
+func _on_upgrade_chosen(index: int) -> void:
+	var from_choice := _build_panel.upgrades_focused()
+	_build.upgrade(index)
+	if from_choice:
+		_return_to_maze()
 
 
 func _refresh_build_panel() -> void:
-	_build_panel.refresh(_run.player, _build.chosen_tower)
+	_build_panel.refresh(_run.player, _build.chosen_tower, _build.tower_at_cursor())
 
 
 func _refresh_battle_hud() -> void:
