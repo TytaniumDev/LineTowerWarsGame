@@ -24,8 +24,11 @@ const OUTCOME_TEXT: Dictionary[Duel.Outcome, String] = {
 	Duel.Outcome.DRAW: "Draw",
 }
 
+## The rules for this run. Set before adding the screen to the tree; defaults to the
+## standard ruleset.
+var rules: RulesetDef
+
 var _content: ContentRegistry
-var _rules: RulesetDef
 var _lane: LaneDef
 var _store: SnapshotStore = SnapshotStore.new()
 var _sim: GameSim
@@ -55,7 +58,8 @@ var _away_state: LaneViewState = LaneViewState.new()
 
 func _ready() -> void:
 	_content = ContentLoader.load_registry()
-	_rules = load(RULESET_PATH)
+	if rules == null:
+		rules = load(RULESET_PATH)
 	_lane = load(LANE_PATH)
 	var towers := _base_towers()
 	_home_view.state = _home_state
@@ -151,7 +155,7 @@ func _start_run() -> void:
 	pool.append_array(SnapshotStore.new(SEED_SNAPSHOT_DIR).load_all(_content))
 	_sim = GameSim.new(int(Time.get_unix_time_from_system()))
 	_sim.ticked.connect(_on_ticked)
-	_run = _sim.start_run(_rules, _lane, pool)
+	_run = _sim.start_run(rules, _lane, pool)
 	_runner.sim = _sim
 	_enter_build()
 
@@ -242,7 +246,7 @@ func _refresh_battle_hud() -> void:
 	var player := _run.player
 	var outcome := ""
 	if _run.phase == RunState.Phase.RUN_OVER:
-		var won := player.wins >= _rules.wins_to_finish
+		var won := player.wins >= rules.wins_to_finish
 		outcome = "Run won!" if won else "Run over"
 		outcome += "\n%d wins, %d losses, %d draws" % [player.wins, player.losses, player.draws]
 		_battle_hud.refresh(player.round_number, _finished_duel, "", _runner.speed, false, outcome)
