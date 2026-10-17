@@ -185,3 +185,5 @@ Stored as JSON. Maze and army are separable.
 | D33 | Send order | Sent creeps enter in the order bought, evenly spaced | 2026-10-17 |
 | D34 | Tower shots | Homing shots with a scheduled hit tick: no physics, never miss, visuals land with the damage | 2026-10-17 |
 | D35 | Overkill | Towers count damage in flight and skip creeps already doomed | 2026-10-17 |
+| D36 | Duel ties | Equal leaks is a draw: no life lost, no win | 2026-10-17 |
+| D37 | Offline opponents | Your own past rounds, saved locally, plus a few hand-made seeds for an empty pool | 2026-10-17 |

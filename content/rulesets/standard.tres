@@ -1,0 +1,150 @@
+[gd_resource type="Resource" script_class="RulesetDef" format=3]
+
+[ext_resource type="Script" path="res://sim/defs/ruleset_def.gd" id="1_e5dri"]
+[ext_resource type="Script" path="res://sim/defs/wave_def.gd" id="2_qcii3"]
+[ext_resource type="Script" path="res://sim/defs/wave_entry.gd" id="3_0qg3l"]
+[ext_resource type="Resource" path="res://content/creeps/grunt.tres" id="4_kvfl3"]
+[ext_resource type="Resource" path="res://content/creeps/swarm.tres" id="5_wjvq5"]
+[ext_resource type="Resource" path="res://content/creeps/runner.tres" id="6_oda7k"]
+[ext_resource type="Resource" path="res://content/creeps/tank.tres" id="7_04j4d"]
+
+[sub_resource type="Resource" id="Resource_pdtnp"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("4_kvfl3")
+count = 6
+
+[sub_resource type="Resource" id="Resource_bjidp"]
+script = ExtResource("2_qcii3")
+entries = Array[ExtResource("3_0qg3l")]([SubResource("Resource_pdtnp")])
+
+[sub_resource type="Resource" id="Resource_dvxdd"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("4_kvfl3")
+count = 8
+
+[sub_resource type="Resource" id="Resource_3fge4"]
+script = ExtResource("2_qcii3")
+entries = Array[ExtResource("3_0qg3l")]([SubResource("Resource_dvxdd")])
+
+[sub_resource type="Resource" id="Resource_8wsag"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("4_kvfl3")
+count = 6
+
+[sub_resource type="Resource" id="Resource_7s1nw"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("5_wjvq5")
+count = 4
+
+[sub_resource type="Resource" id="Resource_5diim"]
+script = ExtResource("2_qcii3")
+entries = Array[ExtResource("3_0qg3l")]([SubResource("Resource_8wsag"), SubResource("Resource_7s1nw")])
+
+[sub_resource type="Resource" id="Resource_thxn8"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("4_kvfl3")
+count = 8
+
+[sub_resource type="Resource" id="Resource_hoy33"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("6_oda7k")
+count = 3
+
+[sub_resource type="Resource" id="Resource_avsue"]
+script = ExtResource("2_qcii3")
+entries = Array[ExtResource("3_0qg3l")]([SubResource("Resource_thxn8"), SubResource("Resource_hoy33")])
+
+[sub_resource type="Resource" id="Resource_ip6dk"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("7_04j4d")
+count = 2
+
+[sub_resource type="Resource" id="Resource_vmsl6"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("4_kvfl3")
+count = 8
+
+[sub_resource type="Resource" id="Resource_x2gni"]
+script = ExtResource("2_qcii3")
+entries = Array[ExtResource("3_0qg3l")]([SubResource("Resource_ip6dk"), SubResource("Resource_vmsl6")])
+
+[sub_resource type="Resource" id="Resource_kjh12"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("5_wjvq5")
+count = 12
+
+[sub_resource type="Resource" id="Resource_3aq2l"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("6_oda7k")
+count = 4
+
+[sub_resource type="Resource" id="Resource_u80me"]
+script = ExtResource("2_qcii3")
+entries = Array[ExtResource("3_0qg3l")]([SubResource("Resource_kjh12"), SubResource("Resource_3aq2l")])
+
+[sub_resource type="Resource" id="Resource_cv5fe"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("7_04j4d")
+count = 4
+
+[sub_resource type="Resource" id="Resource_uouex"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("4_kvfl3")
+count = 10
+
+[sub_resource type="Resource" id="Resource_i7aw8"]
+script = ExtResource("2_qcii3")
+entries = Array[ExtResource("3_0qg3l")]([SubResource("Resource_cv5fe"), SubResource("Resource_uouex")])
+
+[sub_resource type="Resource" id="Resource_4ii3c"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("6_oda7k")
+count = 10
+
+[sub_resource type="Resource" id="Resource_oqi2g"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("7_04j4d")
+count = 3
+
+[sub_resource type="Resource" id="Resource_drnam"]
+script = ExtResource("2_qcii3")
+entries = Array[ExtResource("3_0qg3l")]([SubResource("Resource_4ii3c"), SubResource("Resource_oqi2g")])
+
+[sub_resource type="Resource" id="Resource_uvgxq"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("7_04j4d")
+count = 6
+
+[sub_resource type="Resource" id="Resource_gv76v"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("5_wjvq5")
+count = 12
+
+[sub_resource type="Resource" id="Resource_kpfso"]
+script = ExtResource("2_qcii3")
+entries = Array[ExtResource("3_0qg3l")]([SubResource("Resource_uvgxq"), SubResource("Resource_gv76v")])
+
+[sub_resource type="Resource" id="Resource_joefk"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("7_04j4d")
+count = 8
+
+[sub_resource type="Resource" id="Resource_h5213"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("6_oda7k")
+count = 8
+
+[sub_resource type="Resource" id="Resource_dcul2"]
+script = ExtResource("3_0qg3l")
+creep = ExtResource("4_kvfl3")
+count = 10
+
+[sub_resource type="Resource" id="Resource_cjusw"]
+script = ExtResource("2_qcii3")
+entries = Array[ExtResource("3_0qg3l")]([SubResource("Resource_joefk"), SubResource("Resource_h5213"), SubResource("Resource_dcul2")])
+
+[resource]
+script = ExtResource("1_e5dri")
+id = &"standard"
+display_name = "Standard"
+waves = Array[ExtResource("2_qcii3")]([SubResource("Resource_bjidp"), SubResource("Resource_3fge4"), SubResource("Resource_5diim"), SubResource("Resource_avsue"), SubResource("Resource_x2gni"), SubResource("Resource_u80me"), SubResource("Resource_i7aw8"), SubResource("Resource_drnam"), SubResource("Resource_kpfso"), SubResource("Resource_cjusw")])
