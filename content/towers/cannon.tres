@@ -1,8 +1,7 @@
-[gd_resource type="Resource" script_class="TowerDef" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="TowerDef" load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_u2xa1"]
-[ext_resource type="Resource" path="res://content/towers/upgrades/mortar.tres" id="2_mortar"]
-[ext_resource type="Resource" path="res://content/towers/upgrades/bombard.tres" id="3_bombard"]
+[ext_resource type="Resource" path="res://content/towers/upgrades/cannon_2.tres" id="2_cannon_2"]
 
 [resource]
 script = ExtResource("1_u2xa1")
@@ -14,4 +13,4 @@ damage = 8
 projectile_speed = 8000
 attack_interval = 36
 splash_radius = 1000
-upgrades = Array[ExtResource("1_u2xa1")]([ExtResource("2_mortar"), ExtResource("3_bombard")])
+upgrades = Array[ExtResource("1_u2xa1")]([ExtResource("2_cannon_2")])

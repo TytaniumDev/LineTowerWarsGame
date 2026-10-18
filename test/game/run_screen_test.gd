@@ -28,13 +28,19 @@ func test_upgrading_a_branching_tower_picks_from_the_panel() -> void:
 	build.player.gold = 100
 	build.player.place_tower(build.towers[0], build.cursor)
 	build.choose_tower(0)
+	# The first upgrade is linear, so it applies straight away.
+	build.call("_request_upgrade")
+	var level_2 := build.towers[0].upgrades[0]
+	assert_str(build.tower_at_cursor().def.id).is_equal(level_2.id)
+	assert_bool(build.active).is_true()
+	# Level 2 branches, so the panel takes focus to pick one.
 	build.call("_request_upgrade")
 	assert_bool(build.active).is_false()
 	assert_bool(panel.upgrades_focused()).is_true()
 	var choice := get_viewport().gui_get_focus_owner() as Button
 	choice.pressed.emit()
 	var upgraded := build.tower_at_cursor().def
-	assert_bool(upgraded in build.towers[0].upgrades).is_true()
+	assert_bool(upgraded in level_2.upgrades).is_true()
 	assert_bool(build.active).is_true()
 
 

@@ -35,9 +35,13 @@ func test_towers_are_valid() -> void:
 
 func test_every_upgrade_is_reachable_from_a_base_tower() -> void:
 	var reachable: Dictionary[StringName, bool] = {}
+	var pending: Array[TowerDef] = []
 	for base: Resource in _load_all("res://content/towers"):
-		for upgrade: TowerDef in (base as TowerDef).upgrades:
-			reachable[upgrade.id] = true
+		pending.append_array((base as TowerDef).upgrades)
+	while not pending.is_empty():
+		var upgrade: TowerDef = pending.pop_back()
+		reachable[upgrade.id] = true
+		pending.append_array(upgrade.upgrades)
 	for upgrade: Resource in _load_all("res://content/towers/upgrades"):
 		var id: StringName = upgrade.get("id")
 		assert_bool(reachable.has(id)).override_failure_message("%s is unreachable" % id).is_true()

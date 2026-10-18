@@ -19,7 +19,7 @@ mazing and creep sends with async battles against other players' saved builds.
 | Move the build cursor | Arrows / WASD / mouse | D-pad / left stick |
 | Place the chosen tower | Space / left click | A |
 | Sell the tower under the cursor | X / right click | X |
-| Upgrade the tower under the cursor | U, or click an upgrade in the panel | B, then pick a branch with A |
+| Upgrade the tower under the cursor | U, or click an upgrade in the panel | B, then pick a branch with A when there are two |
 | Previous / next tower type | Q / E | LB / RB |
 | Switch between maze and side panel | Tab | Y |
 | Ready for battle | Enter | Start |
