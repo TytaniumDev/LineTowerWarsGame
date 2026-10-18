@@ -18,6 +18,9 @@ const TOWERS: Dictionary[StringName, Color] = {
 	&"cannon": Color(0.9, 0.55, 0.2),
 	&"frost": Color(0.4, 0.8, 0.95),
 	# Upgrades are shades of their base tower's color.
+	&"arrow_2": Color(0.35, 0.65, 0.25),
+	&"frost_2": Color(0.3, 0.7, 0.9),
+	&"cannon_2": Color(0.8, 0.45, 0.15),
 	&"sniper": Color(0.25, 0.5, 0.2),
 	&"rapid": Color(0.7, 0.95, 0.5),
 	&"mortar": Color(0.7, 0.35, 0.1),

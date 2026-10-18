@@ -196,4 +196,5 @@ Stored as JSON. Maze and army are separable.
 | D43 | Control rebinding | Later; the Controls tab lists bindings for now (Steam Input covers remapping on Deck) | 2026-10-17 |
 | D44 | Graphics options | Basics first (window mode, VSync, FPS cap); 3D quality settings arrive with the 3D view | 2026-10-17 |
 | D45 | Live 2D/3D renderer switch | F3 / L3 (left-stick click) toggles mid-game, plus a saved "View" setting in Options → Graphics. L3 rather than Back+Y because Back opens the pause menu | 2026-10-17 |
-| D46 | Upgrade controls | U / B upgrades the tower under the cursor; with two branches, focus jumps to the panel to pick one (A), and B / Esc backs out. First trees branch at once (Arrow → Sniper/Rapid, Frost → Glacier/Blizzard, Cannon → Mortar/Bombard) with placeholder numbers | 2026-10-17 |
+| D46 | Upgrade controls | U / B upgrades the tower under the cursor; with two branches, focus jumps to the panel to pick one (A), and B / Esc backs out. Trees go one level, then branch (Arrow → Arrow II → Sniper/Rapid, Frost → Frost II → Glacier/Blizzard, Cannon → Cannon II → Mortar/Bombard), with placeholder numbers | 2026-10-17 |
+| D47 | Playtest menu | A Playtest button on the main menu in every build picks a ruleset variant and tweaks its numbers for one run; 3D graphics offer shadows, anti-aliasing and render scale as separate settings | 2026-10-18 |

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="TowerDef" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://sim/defs/tower_def.gd" id="1_tower"]
+[ext_resource type="Resource" path="res://content/towers/upgrades/sniper.tres" id="2_sniper"]
+[ext_resource type="Resource" path="res://content/towers/upgrades/rapid.tres" id="3_rapid"]
+
+[resource]
+script = ExtResource("1_tower")
+id = &"arrow_2"
+display_name = "Arrow II"
+cost = 12
+attack_range = 3500
+damage = 16
+attack_interval = 18
+projectile_speed = 13000
+upgrades = Array[ExtResource("1_tower")]([ExtResource("2_sniper"), ExtResource("3_rapid")])
