@@ -91,12 +91,99 @@ jobs:
           name: LineTowerWars-${{ matrix.name }}
           path: build/
 
+  # Signs and notarizes the macOS build with Tyler's Developer ID so Gatekeeper opens it
+  # without a warning, then replaces the macOS artifact. Skips (leaving the build unsigned)
+  # until the signing secrets are set; see docs/macos-signing.md.
+  sign-macos:
+    name: Sign macOS
+    needs: [export]
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: macos-15
+    env:
+      MACOS_CERTIFICATE_P12: ${{ secrets.MACOS_CERTIFICATE_P12 }}
+      MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+      APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
+      APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+      APPLE_API_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER_ID }}
+    steps:
+      - name: Check for signing secrets
+        id: secrets
+        run: |
+          echo "KEYCHAIN=$RUNNER_TEMP/signing.keychain-db" >> "$GITHUB_ENV"
+          for name in MACOS_CERTIFICATE_P12 MACOS_CERTIFICATE_PASSWORD \
+            APPLE_API_KEY_P8 APPLE_API_KEY_ID APPLE_API_ISSUER_ID; do
+            if [ -z "${!name}" ]; then
+              echo "::notice::$name is not set; leaving the macOS build unsigned."
+              echo "enabled=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          done
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+      - if: steps.secrets.outputs.enabled == 'true'
+        uses: actions/download-artifact@v8
+        with:
+          name: LineTowerWars-macOS
+          path: build
+      - name: Import Developer ID certificate
+        if: steps.secrets.outputs.enabled == 'true'
+        run: |
+          keychain_password="$(uuidgen)"
+          echo "$MACOS_CERTIFICATE_P12" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security create-keychain -p "$keychain_password" "$KEYCHAIN"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN"
+          security unlock-keychain -p "$keychain_password" "$KEYCHAIN"
+          security import "$RUNNER_TEMP/cert.p12" -k "$KEYCHAIN" \
+            -P "$MACOS_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -k "$keychain_password" "$KEYCHAIN"
+          security list-keychains -d user -s "$KEYCHAIN"
+          rm "$RUNNER_TEMP/cert.p12"
+      - name: Sign app
+        if: steps.secrets.outputs.enabled == 'true'
+        run: |
+          identity="$(security find-identity -v -p codesigning "$KEYCHAIN" \
+            | grep -o '"Developer ID Application: [^"]*"' | head -n 1 | tr -d '"')"
+          test -n "$identity" || { echo "::error::No Developer ID Application identity in the certificate."; exit 1; }
+          mkdir app
+          ditto -x -k build/macos/LineTowerWars.zip app
+          codesign --force --timestamp --options runtime --sign "$identity" app/*.app
+          codesign --verify --deep --strict --verbose=2 app/*.app
+      - name: Notarize and staple
+        if: steps.secrets.outputs.enabled == 'true'
+        run: |
+          echo "$APPLE_API_KEY_P8" > "$RUNNER_TEMP/api_key.p8"
+          ditto -c -k --keepParent app/*.app "$RUNNER_TEMP/notarize.zip"
+          xcrun notarytool submit "$RUNNER_TEMP/notarize.zip" --wait --output-format json \
+            --key "$RUNNER_TEMP/api_key.p8" --key-id "$APPLE_API_KEY_ID" \
+            --issuer "$APPLE_API_ISSUER_ID" | tee "$RUNNER_TEMP/notary.json"
+          status="$(plutil -extract status raw "$RUNNER_TEMP/notary.json")"
+          if [ "$status" != "Accepted" ]; then
+            xcrun notarytool log "$(plutil -extract id raw "$RUNNER_TEMP/notary.json")" \
+              --key "$RUNNER_TEMP/api_key.p8" --key-id "$APPLE_API_KEY_ID" \
+              --issuer "$APPLE_API_ISSUER_ID"
+            exit 1
+          fi
+          xcrun stapler staple app/*.app
+          spctl --assess --type execute --verbose=2 app/*.app
+          rm build/macos/LineTowerWars.zip
+          ditto -c -k --keepParent app/*.app build/macos/LineTowerWars.zip
+      - if: steps.secrets.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: LineTowerWars-macOS
+          path: build/
+          overwrite: true
+      - name: Clean up signing files
+        if: always()
+        run: |
+          [ -z "${KEYCHAIN:-}" ] || security delete-keychain "$KEYCHAIN" 2>/dev/null || true
+          rm -f "$RUNNER_TEMP/api_key.p8" "$RUNNER_TEMP/cert.p12"
+
   # Replaces the rolling "latest" prerelease so the repo's Releases sidebar always
   # offers the newest build from main. PR builds stay as workflow artifacts only.
   release:
     name: Publish latest build
-    needs: [export]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [export, sign-macos]
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     permissions:
       contents: write

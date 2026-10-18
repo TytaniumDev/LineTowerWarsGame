@@ -10,9 +10,14 @@ mazing and creep sends with async battles against other players' saved builds.
 
 The newest build of `main` is always on the
 [Latest build](https://github.com/TytaniumDev/LineTowerWarsGame/releases/tag/latest) release, with
-zips for Windows, Linux and macOS. CI replaces it after every merge. Builds are unsigned, so
-Windows SmartScreen and macOS Gatekeeper will warn on first launch (on macOS, right-click the app
-and choose Open).
+zips for Windows, Linux and macOS. CI replaces it after every merge.
+
+- **macOS:** once signing is set up ([docs/macos-signing.md](docs/macos-signing.md)), the app is
+  signed and notarized and opens normally. Until then macOS blocks it as unverified: open
+  **System Settings > Privacy & Security**, scroll down and click **Open Anyway**, or run
+  `xattr -dr com.apple.quarantine "/path/to/the.app"`.
+- **Windows:** the build is unsigned, so SmartScreen may warn on first launch. Click
+  **More info > Run anyway**.
 
 ## Getting started
 
