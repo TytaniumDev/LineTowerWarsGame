@@ -6,6 +6,14 @@ mazing and creep sends with async battles against other players' saved builds.
 - Spec: [docs/PRD.md](docs/PRD.md)
 - Contributor guide and conventions: [CLAUDE.md](CLAUDE.md)
 
+## Download
+
+The newest build of `main` is always on the
+[Latest build](https://github.com/TytaniumDev/LineTowerWarsGame/releases/tag/latest) release, with
+zips for Windows, Linux and macOS. CI replaces it after every merge. Builds are unsigned, so
+Windows SmartScreen and macOS Gatekeeper will warn on first launch (on macOS, right-click the app
+and choose Open).
+
 ## Getting started
 
 1. Install [Godot 4.7.2](https://godotengine.org/download) and Git LFS (`git lfs install`).

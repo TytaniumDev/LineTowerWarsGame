@@ -90,3 +90,39 @@ jobs:
         with:
           name: LineTowerWars-${{ matrix.name }}
           path: build/
+
+  # Replaces the rolling "latest" prerelease so the repo's Releases sidebar always
+  # offers the newest build from main. PR builds stay as workflow artifacts only.
+  release:
+    name: Publish latest build
+    needs: [export]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    concurrency:
+      group: release-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: LineTowerWars-*
+      - name: Package zips
+        run: |
+          mkdir dist
+          # Artifacts drop the executable bit, so restore it before zipping.
+          chmod +x LineTowerWars-Linux/linux/LineTowerWars.x86_64
+          (cd LineTowerWars-Windows/windows && zip -r "$GITHUB_WORKSPACE/dist/LineTowerWars-Windows.zip" .)
+          (cd LineTowerWars-Linux/linux && zip -r "$GITHUB_WORKSPACE/dist/LineTowerWars-Linux.zip" .)
+          cp LineTowerWars-macOS/macos/LineTowerWars.zip dist/LineTowerWars-macOS.zip
+          ls -l dist
+      - name: Replace latest release
+        run: |
+          gh release delete latest --cleanup-tag --yes || true
+          gh release create latest dist/*.zip \
+            --prerelease \
+            --target "$GITHUB_SHA" \
+            --title "Latest build" \
+            --notes "Automatic build of main at ${GITHUB_SHA::7}. Replaced on every merge."
