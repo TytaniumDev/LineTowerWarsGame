@@ -198,3 +198,4 @@ Stored as JSON. Maze and army are separable.
 | D45 | Live 2D/3D renderer switch | F3 / L3 (left-stick click) toggles mid-game, plus a saved "View" setting in Options → Graphics. L3 rather than Back+Y because Back opens the pause menu | 2026-10-17 |
 | D46 | Upgrade controls | U / B upgrades the tower under the cursor; with two branches, focus jumps to the panel to pick one (A), and B / Esc backs out. Trees go one level, then branch (Arrow → Arrow II → Sniper/Rapid, Frost → Frost II → Glacier/Blizzard, Cannon → Cannon II → Mortar/Bombard), with placeholder numbers | 2026-10-17 |
 | D47 | Playtest menu | A Playtest button on the main menu in every build picks a ruleset variant and tweaks its numbers for one run; 3D graphics offer shadows, anti-aliasing and render scale as separate settings | 2026-10-18 |
+| D48 | Creep movement | Creeps may move diagonally through the maze (they never cut between two diagonal towers) | 2026-10-18 |
