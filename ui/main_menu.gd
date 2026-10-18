@@ -1,11 +1,10 @@
 class_name MainMenu
 extends Control
-## Title screen: Play, Options and Quit, plus Playtest in debug builds. Controller focus
-## starts on Play.
+## Title screen: Play, Playtest, Options and Quit. Controller focus starts on Play.
 
 signal play_pressed
 signal options_pressed
-## Debug builds only: open the ruleset picker (D10).
+## Open the ruleset picker (D10).
 signal playtest_pressed
 
 var _play: Button
@@ -25,8 +24,7 @@ func _ready() -> void:
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(title)
 	_play = MenuButtons.add(box, "Play", play_pressed.emit)
-	if OS.is_debug_build():
-		MenuButtons.add(box, "Playtest", playtest_pressed.emit)
+	MenuButtons.add(box, "Playtest", playtest_pressed.emit)
 	MenuButtons.add(box, "Options", options_pressed.emit)
 	MenuButtons.add(box, "Quit", func() -> void: get_tree().quit())
 	var version := Label.new()
